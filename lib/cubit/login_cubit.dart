@@ -20,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        emit(LoginSuccess());
+        emit(LoginSuccess(data));
         print("✅ Login successful, token: ${data['token']}");
       } else {
         final data = jsonDecode(response.body);

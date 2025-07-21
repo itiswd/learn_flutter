@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_flutter/screens/profile_page.dart';
 
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
@@ -30,8 +31,10 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم تسجيل الدخول بنجاح')),
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ProfilePage(userData: state.userData),
+                ),
               );
             } else if (state is LoginError) {
               ScaffoldMessenger.of(
