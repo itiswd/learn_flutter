@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'cubit/login_cubit.dart';
-import 'screens/login_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'login_page.dart';
 
 void main() {
-  runApp(BlocProvider(create: (_) => LoginCubit(), child: const MyApp()));
+  runApp(
+    ScreenUtilInit(
+      designSize: Size(375, 812), // تصميم مبني على iPhone X مثلاً
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return const MyApp();
+      },
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,6 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Login with Cubit', home: const LoginPage());
+    return MaterialApp(
+      title: 'Responsive Login',
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
+    );
   }
 }
