@@ -10,6 +10,11 @@ class CounterProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void decrement() {
+    _counter--;
+    notifyListeners();
+  }
+
   void reset() {
     _counter = 0;
     notifyListeners();
