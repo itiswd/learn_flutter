@@ -1,40 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter/provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_flutter/bloc/bloc.dart';
+import 'package:learn_flutter/bloc/events.dart';
+import 'package:learn_flutter/bloc/states.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final counterProvider = Provider.of<CounterProvider>(context);
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Provider Example')),
-      body: Center(
-        child: Text(
-          'Counter: ${counterProvider.counter}',
-          style: const TextStyle(fontSize: 32),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('BLoC Counter')),
+        body: Center(
+          child: BlocBuilder<CounterBloc, CounterState>(
+            builder: (context, state) {
+              return Text(
+                'Counter: ${state.counter}',
+                style: const TextStyle(fontSize: 30),
+              );
+            },
+          ),
         ),
-      ),
-      floatingActionButton: Column(
-        spacing: 4,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: counterProvider.increment,
-            child: const Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            onPressed: counterProvider.decrement,
-            child: const Icon(Icons.remove),
-          ),
-          const SizedBox(width: 16),
-          FloatingActionButton(
-            onPressed: counterProvider.reset,
-            child: const Icon(Icons.refresh),
-          ),
-        ],
+        floatingActionButton: Column(
+          spacing: 4,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                context.read<CounterBloc>().add(IncrementEvent());
+              },
+              child: const Icon(Icons.add),
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                context.read<CounterBloc>().add(DecrementEvent());
+              },
+              child: const Icon(Icons.remove),
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                context.read<CounterBloc>().add(ResetEvent());
+              },
+              child: const Icon(Icons.refresh),
+            ),
+          ],
+        ),
       ),
     );
   }
